@@ -49,7 +49,7 @@ Enhancement ideas should align with sharebin’s goals: simplicity, privacy, and
 To contribute code:
 
 1. **Fork** the repository on Codeberg.
-2. **Create a new branch** from `main` for your change.
+2. **Create a new branch** from `master` for your change.
 3. Make your changes and commit them with clear messages.
 4. Test your changes locally.
 5. **Submit a Pull Request (PR)** describing:
