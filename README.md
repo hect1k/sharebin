@@ -2,7 +2,10 @@
 
 **sharebin** is a modern and user-focused platform built with [FastAPI](https://fastapi.tiangolo.com/) and [PostgreSQL](https://www.postgresql.org/) for easy, ephemeral sharing of files, links, and text pastes. It's a *minimalist, open-source* utility built on the principle of **ephemeral data transfer**.
 
-> **‼ Note:** All issues, pull requests, and discussions will be handled only on the [original repo](https://codeberg.org/hect1k/sharebin). Please direct contributions there.
+> [!WARNING]
+> All issues, pull requests, and discussions will be handled only on the [original repo](https://codeberg.org/hect1k/sharebin). Please direct contributions there.
+
+![sharebin](https://shareb.in/static/og-image.jpg)
 
 ## Table of Contents
 
