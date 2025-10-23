@@ -44,7 +44,7 @@ async def send_verification_email(user: User, url: str):
                 <div style="padding-top: 20px;">
                     <p style="margin-bottom: 15px;">Hello {user.name},</p>
 
-                    <p style="margin-bottom: 20px;">Thank App you for registering with <a title="shareb.in homepage" href="{settings.DOMAIN}" style="color: #008f4c; text-decoration: none;">shareb.in</a>. To complete your account setup and start sharing files, please verify your email address.</p>
+                    <p style="margin-bottom: 20px;">Thank you for registering with <a title="shareb.in homepage" href="{settings.DOMAIN}" style="color: #008f4c; text-decoration: none;">shareb.in</a>. To complete your account setup and start sharing files, please verify your email address.</p>
 
                     <div style="text-align: center; margin: 30px 0;">
                         <a href="{url}" style="background-color: #008f4c; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; border: 1px solid #008f4c;">
