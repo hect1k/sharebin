@@ -18,9 +18,9 @@
 * [Docker](#docker)
 * [Usage](#usage)
 * [To-Do](#to-do)
+* [License](#license)
 * [Contributing](#contributing)
 * [Code of Conduct](#code-of-conduct)
-* [License](#license)
 
 ## Features
 
