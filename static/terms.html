@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>Terms of Use | shareb.in</title>
+  <meta name="description"
+    content="Terms of Use for the shareb.in service, outlining content policy, user responsibilities, and data handling.">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="Terms of Use | shareb.in" />
+  <meta property="og:description"
+    content="Terms of Use for the shareb.in service, outlining content policy, user responsibilities, and data handling." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/terms" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+        <button id="logout-btn" title="Logout of your account" class="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="terms-content">
+      <h2>Terms of Use</h2>
+      <p class="fine-print">Last Updated: October 2025</p>
+
+      <p>
+        By using <b>shareb.in</b>, you agree to these Terms of Use. shareb.in is provided as a public service on an "as
+        is"
+        basis for temporary file, link, and text sharing.
+      </p>
+
+      <h3>1. Content Policy & Public Disclosure</h3>
+      <ul>
+        <li>
+          <b>Public Content:</b> All content uploaded to shareb.in is <i>publicly accessible</i> via the generated short
+          link. You acknowledge that anyone with the link can view, download, or access the shared material.
+        </li>
+        <li>
+          <b>No Expectation of Privacy:</b> Due to the public nature of the links, you should have <i>no expectation of
+            privacy</i> for any content shared on this service.
+        </li>
+        <li>
+          <b>Prohibited Content:</b> You may not use shareb.in to share content that is illegal, harmful, harassing,
+          defamatory, obscene, or violates any third-party rights, including intellectual property and privacy rights.
+        </li>
+      </ul>
+
+      <h3>2. User Responsibility</h3>
+      <p>
+        The <i>responsibility for all content</i> shared, uploaded, or linked through your use of shareb.in <i>lies
+          solely with you</i>, the user.
+      </p>
+      <ul>
+        <li>You confirm that you own the rights to the content or have the necessary permissions to share it publicly.
+        </li>
+        <li>shareb.in and its operator are not liable for the content shared by users.</li>
+        <li>We reserve the right to remove any content without notice if it is deemed to violate these terms or
+          applicable law.</li>
+      </ul>
+
+      <h3>3. Ephemeral Data & Expiry</h3>
+      <ul>
+        <li>
+          <b>Automatic Deletion:</b> All shared items are automatically and permanently <i>purged from the server</i>
+          upon reaching their configured expiry time.
+        </li>
+        <li>
+          <b>No Data Recovery:</b> Once content is deleted, it <i>cannot be recovered</i>. You are responsible for
+          retaining copies of your original files or text.
+        </li>
+        <li>
+          We do not guarantee the permanent availability of links, even before expiry, due to system maintenance or
+          policy violations.
+        </li>
+      </ul>
+
+      <h3>4. Open Source & Service Provision</h3>
+      <p>
+        shareb.in is an <i>open-source, self-hostable</i> solution. The service operator provides this public instance
+        as a convenience and makes <i>no guarantee</i> of uptime, data retention, or service quality. The service may be
+        terminated at any time without prior notice.
+      </p>
+
+      <p class="fine-print">
+        For further details on how the service works, visit the <a title="What is shareb.in" href="/about">about</a>
+        page.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerLink = document.getElementById('register-link');
+      const loginLink = document.getElementById('login-link');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        registerLink.style.display = 'none';
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'auto';
+      } else {
+        registerLink.style.display = 'auto';
+        loginLink.style.display = 'auto';
+        logoutBtn.style.display = 'none';
+      }
+
+      logoutBtn.onclick = () => {
+        localStorage.clear();
+        window.location.reload();
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>Login | shareb.in</title>
+  <meta name="description" content="Login to your shareb.in account to manage your files and uploads.">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="Login | shareb.in" />
+  <meta property="og:description" content="Login to your shareb.in account to manage your files and uploads." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/login" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="login-section">
+      <h2>login</h2>
+      <form id="login-form" class="form-group">
+        <div class="input-group">
+          <label for="email">Email<span class="require-field">*</span></label>
+          <input type="email" name="email" id="email" placeholder="brian@failednovelist.com" required>
+        </div>
+        <div class="input-group">
+          <label for="password" class="password-with-forgot">Password<span class="require-field">*</span> <button
+              title="Forgot Password" type="button" id="forgot-password" class="button">Forgot
+              Password?</button></label>
+          <input type="password" name="password" id="password" placeholder="TalkinDog" required
+            autocomplete="current-password">
+        </div>
+        <button id="login-submit-btn" type="submit" class="button submit-btn">Login</button>
+      </form>
+      <button id="resend-btn" title="Resend Verification Email" class="button">Resend Verification Email</button>
+      <p>Don't have an account? <a href="/register">Register here</a></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const access_token = localStorage.getItem('access_token');
+      const name = localStorage.getItem('name');
+      const plan = localStorage.getItem('plan');
+
+      if (access_token && name && plan) {
+        window.location.href = '/';
+        return
+      }
+
+      localStorage.clear();
+
+      const resendBtn = document.getElementById('resend-btn');
+      resendBtn.style.display = 'none';
+      resendBtn.onclick = async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+
+        if (!email) {
+          alert('Please enter your email.');
+          return;
+        }
+
+        resendBtn.textContent = 'Resending...';
+        resendBtn.disabled = true;
+
+        try {
+          const res = await fetch('/auth/resend', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: email
+            })
+          });
+
+          const data = await res.json();
+
+          resendBtn.textContent = 'Resend Verification Email';
+          resendBtn.disabled = false;
+
+          if (res.status === 200) {
+            alert(data.detail || 'Verification email resent successfully. Please check your spam folder if you don\'t see it in your inbox.');
+            return;
+          } else {
+            alert(data.detail || 'Something went wrong. Please try again later.');
+            return;
+          }
+        } catch (err) {
+          console.log("Verification Email Resend Error: ", err);
+          alert('Something went wrong. Please try again later.');
+          return;
+        }
+      }
+
+      const forgotPassword = document.getElementById('forgot-password');
+      forgotPassword.onclick = async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+
+        if (!email) {
+          alert('Please enter your email.');
+          return;
+        }
+
+        forgotPassword.textContent = 'Sending...';
+        forgotPassword.disabled = true;
+
+        try {
+          const res = await fetch('/auth/forgot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: email
+            })
+          });
+
+          const data = await res.json();
+
+          forgotPassword.textContent = 'Forgot Password?';
+          forgotPassword.disabled = false;
+
+          if (res.status === 200) {
+            alert(data.detail || 'Password reset email sent successfully.');
+            return;
+          } else {
+            alert(data.detail || 'Something went wrong. Please try again later.');
+            return;
+          }
+        } catch (err) {
+          console.log("Password Reset Error: ", err);
+          alert('Something went wrong. Please try again later.');
+          return;
+        }
+      }
+
+      const loginForm = document.getElementById('login-form');
+      loginForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          alert('Please enter your email and password.');
+          return;
+        }
+
+        const formData = new URLSearchParams();
+        formData.append('username', email);
+        formData.append('password', password);
+
+        const submitBtn = document.getElementById('login-submit-btn');
+        submitBtn.textContent = 'Logging in...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+          });
+
+          const data = await res.json();
+
+          submitBtn.textContent = 'Login';
+          submitBtn.disabled = false;
+
+          if (res.status === 200) {
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
+            localStorage.setItem('name', data.data.name);
+            localStorage.setItem('plan', data.data.plan);
+            window.location.href = '/';
+            return;
+          } else if (res.status === 401) {
+            resendBtn.style.display = 'block';
+            alert(data.detail || 'Please verify your email.');
+            return;
+          } else {
+            console.error("Login Error: ", data.detail);
+            alert(data.detail || 'Login failed. Please check your credentials.');
+            return;
+          }
+        } catch (err) {
+          console.error("Login Error: ", err);
+          alert("Something went wrong. Please try again later.");
+          return;
+        }
+      };
+    });
+  </script>
+</body>
+
+</html>

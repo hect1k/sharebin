@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>shareb.in - Simple File, Link, and Text Sharing</title>
+  <meta name="description"
+    content="shareb.in is a simple, secure, and easy-to-use file, link, and text sharing platform. Get started now!">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="shareb.in - Simple File, Link, and Text Sharing" />
+  <meta property="og:description"
+    content="shareb.in is a simple, secure, and easy-to-use file, link, and text sharing platform. Get started now!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+        <button id="logout-btn" title="Logout of your account" class="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <p class="welcome-text">Welcome, <span id="username">anon.</span></p>
+
+    <nav class="feature-tabs">
+      <button class="tab-button active" data-feature="fileshare">File Share</button>
+      <button class="tab-button" data-feature="urlshortener">URL Shortener</button>
+      <button class="tab-button" data-feature="pastebin">Pastebin</button>
+    </nav>
+
+    <section id="fileshare" class="tab-content hidden">
+      <h2>Upload a file</h2>
+      <form id="file-form" class="form-group">
+        <div class="input-group">
+          <label for="file">File<span class="require-field">*</span></label>
+          <label for="file" class="file-label">Choose File</label>
+          <input type="file" name="file" id="file">
+          <p id="file-name" class="file-name">Selected: None</p>
+        </div>
+        <div class="input-group">
+          <label for="custom_code">Custom Link</label>
+          <p class="custom-code-p">shareb.in/<input type="text" name="custom_code" id="file-custom_code"
+              placeholder="giggity (optional)" class="custom-code-input">
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="expiry">Expire After</label>
+          <select name="expiry" id="file-expiry">
+            <option value="0.25">15 Minutes</option>
+            <option value="0.5">30 Minutes</option>
+            <option value="1">1 Hour</option>
+            <option value="5">5 Hours</option>
+            <option value="12">12 Hours</option>
+            <option value="24">1 Day</option>
+            <option value="48" class="free paid" disabled>2 Days</option>
+            <option value="168" class="free paid" disabled>7 Days</option>
+            <option value="360" class="paid" disabled>15 Days</option>
+            <option value="720" class="paid" disabled>30 Day</option>
+          </select>
+        </div>
+        <button id="file-submit-btn" type="submit" class="button submit-btn">Share</button>
+      </form>
+    </section>
+
+    <section id="urlshortener" class="tab-content hidden">
+      <h2>Shorten a link</h2>
+      <form id="url-form" class="form-group">
+        <div class="input-group">
+          <label for="url">URL<span class="require-field">*</span></label>
+          <input type="url" name="url" id="url" placeholder="https://theclam.com" required>
+        </div>
+        <div class="input-group">
+          <label for="custom_code">Custom Link</label>
+          <p class="custom-code-p">shareb.in/<input type="text" name="custom_code" id="url-custom_code"
+              placeholder="what-the-deuce (optional)" class="custom-code-input">
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="expiry">Expire After</label>
+          <select name="expiry" id="url-expiry">
+            <option value="0.25">15 Minutes</option>
+            <option value="0.5">30 Minutes</option>
+            <option value="1">1 Hour</option>
+            <option value="5">5 Hours</option>
+            <option value="12">12 Hours</option>
+            <option value="24">1 Day</option>
+            <option value="48" class="free paid" disabled>2 Days</option>
+            <option value="168" class="free paid" disabled>7 Days</option>
+            <option value="360" class="paid" disabled>15 Days</option>
+            <option value="720" class="paid" disabled>30 Day</option>
+          </select>
+        </div>
+        <button id="url-submit-btn" type="submit" class="button submit-btn">Shorten</button>
+      </form>
+    </section>
+
+    <section id="pastebin" class="tab-content active">
+      <h2>Paste Text</h2>
+      <form id="text-form" class="form-group">
+        <div class="input-group">
+          <label for="text">Text<span class="require-field">*</span></label>
+          <textarea name="text" id="text"
+            placeholder="Paste your text here... and please, try to make it less confusing than the time I fought the giant chicken for 15 straight minutes over an expired coupon. What the deuce was that even about?"
+            required></textarea>
+        </div>
+        <div class="input-group">
+          <label for="custom_code">Custom Link</label>
+          <p class="custom-code-p">shareb.in/<input type="text" name="custom_code" id="text-custom_code"
+              placeholder="quahog (optional)" class="custom-code-input">
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="expiry">Expire After</label>
+          <select name="expiry" id="text-expiry">
+            <option value="0.25">15 Minutes</option>
+            <option value="0.5">30 Minutes</option>
+            <option value="1">1 Hour</option>
+            <option value="5">5 Hours</option>
+            <option value="12">12 Hours</option>
+            <option value="24">1 Day</option>
+            <option value="48" class="free paid" disabled>2 Days</option>
+            <option value="168" class="free paid" disabled>7 Days</option>
+            <option value="360" class="paid" disabled>15 Days</option>
+            <option value="720" class="paid" disabled>30 Day</option>
+          </select>
+        </div>
+        <button id="text-submit-btn" type="submit" class="button submit-btn">Paste</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const usernameText = document.getElementById('username');
+
+      const registerLink = document.getElementById('register-link');
+      const loginLink = document.getElementById('login-link');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      let headers = {};
+
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        registerLink.style.display = 'none';
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'auto';
+        usernameText.textContent = localStorage.getItem('name') + "." || 'anon.';
+        plan = localStorage.getItem('plan');
+
+        if (plan === 'free') {
+          document.querySelectorAll('.free').forEach(el => {
+            el.disabled = false;
+          });
+        }
+
+        if (plan === 'paid') {
+          document.querySelectorAll('.paid').forEach(el => {
+            el.disabled = false;
+          });
+        }
+
+        headers['Authorization'] = `Bearer ${token}`
+
+      } else {
+        registerLink.style.display = 'auto';
+        loginLink.style.display = 'auto';
+        logoutBtn.style.display = 'none';
+
+        usernameText.textContent = 'anon.';
+
+        document.querySelectorAll('.free').forEach(el => {
+          el.disabled = true;
+        });
+        document.querySelectorAll('.paid').forEach(el => {
+          el.disabled = true;
+        });
+        headers = {};
+      }
+
+      logoutBtn.onclick = () => {
+        localStorage.clear();
+        window.location.reload();
+      }
+
+      const tabs = document.querySelectorAll('.tab-button');
+      const contents = document.querySelectorAll('.tab-content');
+      function switchTab(targetFeature) {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        contents.forEach(content => content.classList.add('hidden'));
+        const activeTab = document.querySelector(`.tab-button[data-feature="${targetFeature}"]`);
+        const activeContent = document.getElementById(targetFeature);
+        if (activeTab) activeTab.classList.add('active');
+        if (activeContent) activeContent.classList.remove('hidden');
+      }
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          switchTab(e.target.dataset.feature);
+        });
+      });
+      switchTab('fileshare');
+
+      const fileInput = document.getElementById('file');
+      const fileName = document.getElementById('file-name');
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        fileName.textContent = "Selected: " + file.name;
+      });
+
+      const fileForm = document.getElementById('file-form');
+
+      fileForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        if (!fileInput.files[0]) {
+          alert('Please select a file');
+          return;
+        }
+
+        const submitBtn = document.getElementById('file-submit-btn');
+        submitBtn.textContent = 'Sharing...';
+        submitBtn.disabled = true;
+
+
+        const file = fileInput.files[0];
+        const custom_code = document.getElementById('file-custom_code').value;
+        const expiry = document.getElementById('file-expiry').value;
+
+        const fileFormData = new FormData();
+        fileFormData.append('file', file);
+        fileFormData.append('expiry', expiry);
+        if (custom_code) {
+          fileFormData.append('custom_code', custom_code);
+        }
+
+        try {
+          const res = await fetch('/', {
+            method: 'POST',
+            body: fileFormData,
+            headers: headers,
+          })
+
+          const data = await res.json();
+
+          submitBtn.textContent = 'Share';
+          submitBtn.disabled = false;
+
+          if (res.status === 201) {
+            window.location.href = `/success?detail=${data.detail}&url=${data.data.url}&expiry=${data.data.expiry}`;
+          } else if (res.status === 401) {
+            alert("Session Expired. Please login again.");
+            localStorage.clear();
+            window.location.reload();
+          } else {
+            console.log("Share File Error: ", data.detail);
+            alert(data.detail);
+            return;
+          }
+        } catch (err) {
+          console.log("Share File Error: ", err);
+          alert("Something went wrong. Please try again later.");
+          fileForm.reset();
+          return;
+        }
+      }
+
+
+      const urlForm = document.getElementById('url-form');
+      urlForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const url = document.getElementById('url').value;
+        const custom_code = document.getElementById('url-custom_code').value;
+        const expiry = document.getElementById('url-expiry').value;
+
+        const urlFormData = new FormData();
+        urlFormData.append('url', url);
+        urlFormData.append('expiry', expiry);
+        if (custom_code) {
+          urlFormData.append('custom_code', custom_code);
+        }
+
+        const submitBtn = document.getElementById('url-submit-btn');
+        submitBtn.textContent = 'Shortening...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/', {
+            method: 'POST',
+            body: urlFormData,
+            headers: headers,
+          })
+
+          const data = await res.json();
+
+          submitBtn.textContent = 'Shorten';
+          submitBtn.disabled = false;
+
+          if (res.status === 201) {
+            window.location.href = `/success?detail=${data.detail}&url=${data.data.url}&expiry=${data.data.expiry}`;
+          } else if (res.status === 401) {
+            alert("Session Expired. Please login again.");
+            localStorage.clear();
+            window.location.reload();
+          } else {
+            console.log("Share URL Error: ", data.detail);
+            alert(data.detail);
+            return;
+          }
+        } catch (err) {
+          console.log("Share URL Error: ", err);
+          alert("Something went wrong. Please try again later.");
+          urlForm.reset();
+          return;
+        }
+      }
+
+
+      const pastebinForm = document.getElementById('text-form');
+      pastebinForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const text = document.getElementById('text').value;
+        const custom_code = document.getElementById('text-custom_code').value;
+        const expiry = document.getElementById('text-expiry').value;
+
+        const textFormData = new FormData();
+        textFormData.append('text', text);
+        textFormData.append('expiry', expiry);
+        if (custom_code) {
+          textFormData.append('custom_code', custom_code);
+        }
+
+        const submitBtn = document.getElementById('text-submit-btn');
+        submitBtn.textContent = 'Pasting...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/', {
+            method: 'POST',
+            body: textFormData,
+            headers: headers,
+          })
+
+          const data = await res.json();
+
+          submitBtn.textContent = 'Paste';
+          submitBtn.disabled = false;
+
+          if (res.status === 201) {
+            window.location.href = `/success?detail=${data.detail}&url=${data.data.url}&expiry=${data.data.expiry}`;
+          } else if (res.status === 401) {
+            alert("Session Expired. Please login again.");
+            localStorage.clear();
+            window.location.reload();
+          } else {
+            console.log("Share Text Error: ", data.detail);
+            alert(data.detail);
+            return;
+          }
+        } catch (err) {
+          console.log("Share Text Error: ", err);
+          alert("Something went wrong. Please try again later.");
+          pastebinForm.reset();
+          return;
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

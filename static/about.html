@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>About | shareb.in - Simple File, Link, and Text Sharing</title>
+  <meta name="description"
+    content="Learn more about shareb.in: its mission to provide simple, secure, and ephemeral sharing for files, links, and text.">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="About | shareb.in" />
+  <meta property="og:description"
+    content="Learn more about shareb.in: its mission to provide simple, secure, and ephemeral sharing for files, links, and text." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/about" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+        <button id="logout-btn" title="Logout of your account" class="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="about-content">
+      <h2>What is shareb.in?</h2>
+
+      <p>
+        <b>shareb.in</b> is a <i>minimalist, open-source</i> file, link, and text sharing utility. It's built on the
+        principle of <i>ephemeral data transfer</i> - meaning your shared content is automatically and permanently
+        deleted
+        after a set period. We believe in simplicity, security, and giving you control over your temporary data.
+      </p>
+
+      <h3>The Philosophy: Suckless, but Usable</h3>
+      <p>
+        Inspired by the <a href="https://suckless.org/philosophy" target="_blank"
+          title="Visit the suckless website">suckless
+          philosophy</a>, shareb.in is designed to be lightweight, fast, and unbloated. While the primary goal is simple
+        utility over excessive features, we've ensured the platform remains highly <i>usable</i> for everyone, whether
+        through the web interface or command line.
+      </p>
+
+      <h3>Focus on the Command Line (cURL)</h3>
+      <p>
+        For power users and developers, shareb.in excels as a CLI tool. You can effortlessly upload files or
+        paste text directly from your terminal using common tools like <code>cURL</code>. Since anonymous usage offers
+        very generous limits, it's perfect for quick scripting and piping data without needing to log in. View the full
+        API documentation here: <a href="/redoc" title="API Documentation for CLI usage">/redoc</a>.
+      </p>
+
+      <h3>Key Features</h3>
+      <ul>
+        <li><b>Minimalist Sharing:</b> File Share, URL Shortener, and Pastebin - nothing more, nothing less.</li>
+        <li><b>Automatic Expiry:</b> All items are automatically purged from the server after their set time expires.
+        </li>
+        <li><b>Open Source & Self-Hostable:</b> You have the freedom to audit the source code, deploy your own instance,
+          and truly control your temporary sharing needs.</li>
+        <li><b>Anonymous-Friendly:</b> Excellent usage limits for anonymous sharing via the command line or web.</li>
+        <li><b>User Accounts:</b> Registered users gain access to custom shortcodes, extended expiry options, and
+          history tracking.</li>
+      </ul>
+
+      <h3>Join the Project</h3>
+      <p>
+        shareb.in is an open-source project by <a href="https://nnisarg.in" target="_blank"
+          title="Visit Nnisarg Gada's website">hect1k (Nnisarg Gada)</a>, and <i>we welcome contributions from the
+          community!</i> If you have ideas for improvements, new features, or want to fix a bug, please check out the
+        source
+        code.
+      </p>
+
+      <p>
+        Find the complete source code and contribution guidelines on <a href="https://codeberg.org/hect1k/sharebin"
+          target="_blank">Codeberg</a>. For policy questions, please refer to the <a href="/terms">Terms</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerLink = document.getElementById('register-link');
+      const loginLink = document.getElementById('login-link');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        registerLink.style.display = 'none';
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'auto';
+      } else {
+        registerLink.style.display = 'auto';
+        loginLink.style.display = 'auto';
+        logoutBtn.style.display = 'none';
+      }
+
+      logoutBtn.onclick = () => {
+        localStorage.clear();
+        window.location.reload();
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,564 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==================================== */
+/* 1. DEFAULT (DARK) THEME VARIABLES */
+/* ==================================== */
+:root {
+  --color-accent: #00A85D;
+  --color-accent-dark: #008f4c;
+  --color-bg: #1C1E21;
+  --color-surface: #272A2E;
+  --color-text: #E0E3E8;
+  --color-text-dim: #8F939A;
+  --color-border: #373A3F;
+  --color-hover: #323539;
+  --color-red: #EB4458;
+  --color-hect1k: #6b75e6;
+
+  --font-sans: 'IBM Plex Mono', monospace, 'Helvetica Neue', Arial, sans-serif;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 32px;
+}
+
+/* ==================================== */
+/* 2. BASE STYLES */
+/* These styles use the variables defined above (defaulting to Dark) */
+/* ==================================== */
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+header {
+  background-color: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+}
+
+header div {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.logo a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: lowercase;
+}
+
+.logo a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.auth-links {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-links a,
+.auth-links button {
+  font-weight: 500;
+  color: var(--color-text-dim);
+  text-underline-offset: 2px;
+  text-transform: lowercase;
+}
+
+.auth-links a:hover,
+.auth-links button:hover {
+  color: var(--color-text);
+  background-color: transparent !important;
+  text-decoration: underline;
+}
+
+.auth-links button {
+  padding: 0;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid var(--color-accent);
+  background-color: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.button.primary {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.button.primary:hover {
+  background-color: var(--color-accent-dark);
+  color: var(--color-text);
+}
+
+.submit-btn {
+  background-color: var(--color-accent-dark);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+.submit-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+
+.container {
+  width: 100%;
+  max-width: 750px;
+  margin: var(--space-lg) auto;
+  padding: 0 var(--space-md);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-text {
+  align-self: flex-start;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+.feature-tabs {
+  display: flex;
+  width: 100%;
+}
+
+.tab-button {
+  flex-grow: 1;
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--color-bg);
+  border: none;
+  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-dim);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+  text-transform: lowercase;
+}
+
+.tab-button:hover {
+  color: var(--color-text);
+  background-color: var(--color-hover);
+}
+
+.tab-button.active {
+  color: var(--color-accent);
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-accent);
+  font-weight: 700;
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+.tab-content {
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+
+.tab-content h2 {
+  display: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.input-group label {
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-transform: lowercase;
+}
+
+.require-field {
+  color: var(--color-red);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  padding: 5px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-hover);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: monospace;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  display: block;
+  padding: 5px;
+  text-align: center;
+  background-color: var(--color-hover);
+  border: 1px dashed var(--color-text-dim);
+  cursor: pointer;
+  font-size: 1rem !important;
+  color: var(--color-text-dim);
+  transition: background-color 0.2s;
+  text-transform: lowercase;
+}
+
+.file-label:hover {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.custom-code-p {
+  display: flex;
+  align-items: center;
+}
+
+.custom-code-input {
+  padding: 2px !important;
+}
+
+footer {
+  text-align: center;
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-dim);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: center;
+}
+
+footer ul {
+  display: flex;
+  gap: var(--space-md);
+}
+
+footer span {
+  display: none;
+}
+
+footer a {
+  font-size: 1rem;
+  color: var(--color-text-dim);
+  text-transform: lowercase;
+}
+
+footer a:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+footer p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-text-dim);
+}
+
+.hect1k {
+  font-size: 0.75rem;
+  color: var(--color-hect1k);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (min-width: 600px) {
+  header div {
+    flex-direction: row;
+  }
+
+  footer {
+    padding: var(--space-lg) var(--space-md);
+    flex-direction: row;
+    gap: var(--space-md);
+  }
+
+  footer span {
+    display: inline-block;
+  }
+
+  footer p,
+  .hect1k {
+    font-size: 1rem;
+  }
+}
+
+.success-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.result-url {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-style: italic;
+}
+
+#expiry-text {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.action-buttons,
+.url-group {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.url-group {
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.copy-btn,
+.share-btn {
+  font-size: 1rem;
+  color: var(--color-text-dim);
+  transition: color 0.2s;
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.go-back {
+  font-size: 1rem;
+  color: var(--color-accent);
+  transition: color 0.2s;
+  background-color: transparent;
+}
+
+.go-back:hover,
+.copy-btn:hover,
+.share-btn:hover {
+  color: var(--color-text);
+  background-color: transparent !important;
+}
+
+.go-back:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+h2 {
+  text-transform: none;
+}
+
+#register-section,
+#login-section,
+#reset-section,
+#about-content,
+#terms-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+#register-section p a,
+#login-section p a,
+#reset-section p a {
+  color: var(--color-text-dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#register-section p a:hover,
+#login-section p a:hover,
+#reset-section p a:hover {
+  color: var(--color-text);
+}
+
+
+#register-form,
+#login-form,
+#reset-form {
+  gap: var(--space-md) !important;
+}
+
+#resend-btn {
+  margin: 0 auto;
+  width: fit-content;
+  color: var(--color-text-dim);
+  text-transform: lowercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  font-size: 0.8rem;
+  background-color: transparent;
+  border: none;
+  transition: color 0.2s;
+}
+
+#resend-btn:hover {
+  color: var(--color-text);
+}
+
+#forgot-password {
+  margin-left: auto;
+  padding: 0;
+  font-size: 0.8rem;
+  background-color: transparent;
+  border: none;
+  color: var(--color-accent);
+  transition: color 0.2s;
+}
+
+#forgot-password:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.password-with-forgot {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: space-between;
+  align-items: center;
+}
+
+#about-content ul,
+#terms-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+#about-content i,
+#terms-content i {
+  font-style: normal;
+  font-weight: 700;
+}
+
+#about-content b,
+#terms-content b {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+#about-content a,
+#terms-content a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fine-print {
+  color: var(--color-text-dim);
+  font-size: 0.9rem;
+}
+
+/* ==================================== */
+/* 3. LIGHT THEME OVERRIDE */
+/* ==================================== */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-accent: #008f4c;
+    --color-accent-dark: #00A85D;
+    --color-bg: #efefef;
+    --color-surface: #F4F6F8;
+    --color-text: #1C1E21;
+    --color-text-dim: #606770;
+    --color-border: #D8DAE0;
+    --color-hover: #E4E6E9;
+    --color-red: #D83C3C;
+    --color-hect1k: #4252C4;
+  }
+
+  .button:hover {
+    color: var(--color-text);
+  }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>Register | shareb.in</title>
+  <meta name="description"
+    content="Register an account for shareb.in to unlock larger file uploads, extended expiry times, and other features.">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="Register | shareb.in" />
+  <meta property="og:description"
+    content="Register an account for shareb.in to unlock larger file uploads, extended expiry times, and other features." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/register" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="register-section">
+      <h2>register</h2>
+      <form id="register-form" class="form-group">
+        <div class="input-group">
+          <label for="name">Name<span class="require-field">*</span></label>
+          <input type="text" name="name" id="name" placeholder="Peter Griffin" required minlength="3" maxlength="30">
+        </div>
+        <div class="input-group">
+          <label for="email">Email<span class="require-field">*</span></label>
+          <input type="email" name="email" id="email" placeholder="peter@pawtucketpatriot.com" required>
+        </div>
+        <div class="input-group">
+          <label for="password">Password<span class="require-field">*</span></label>
+          <input type="password" name="password" id="password" placeholder="NotALady99" required minlength="8"
+            autocomplete="new-password">
+        </div>
+        <button id="register-submit-btn" type="submit" class="button submit-btn">Register</button>
+      </form>
+      <p>Already have an account? <a href="/login">Login here</a></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const registerForm = document.getElementById('register-form');
+
+      registerForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!name || !email || !password) {
+          alert('Please fill in all the required fields.');
+          return;
+        }
+
+        const submitBtn = document.getElementById('register-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering...';
+
+        try {
+          const res = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: name,
+              email: email,
+              password: password
+            }),
+          });
+
+          const data = await res.json();
+
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Register';
+
+          if (res.status === 201) {
+            alert(data.detail || 'Registration successful!');
+            registerForm.reset();
+            return;
+          } else {
+            console.error("Registration Error: ", data.detail);
+            alert(data.detail || 'Registration failed. Please check your details.');
+          }
+        } catch (err) {
+          console.error("Registration Network Error: ", err);
+          alert("Something went wrong. Please try again later.");
+        }
+      };
+    });
+  </script>
+</body>
+
+</html>

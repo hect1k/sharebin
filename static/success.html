@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shareb.in - Success!</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <meta name="description" content="Success! Your file/link/text has been shared.">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+  <script src="https://kit.fontawesome.com/0b92670209.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+        <button id="logout-btn" title="Logout of your account" class="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="success-box">
+      <h2 id="success-message">Share Successful!</h2>
+
+      <div class="url-group">
+        <a title="Go to the link" href="#" target="_blank" class="result-url" id="short-url">Loading...</a>
+        <div class="action-buttons">
+          <button id="copy-btn" class="button copy-btn" title="Copy link to clipboard">
+            <i class="fa-solid fa-copy"></i>
+          </button>
+          <button id="share-btn" class="button share-btn" title="Share link">
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+        </div>
+      </div>
+
+      <p id="expiry-text">This link will expire soon.</p>
+
+      <p><a href="/" title="Go back to the homepage" class="go-back">shareb.in</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const registerLink = document.getElementById('register-link');
+      const loginLink = document.getElementById('login-link');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        registerLink.style.display = 'none';
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'auto';
+      } else {
+        registerLink.style.display = 'auto';
+        loginLink.style.display = 'auto';
+        logoutBtn.style.display = 'none';
+      }
+
+      logoutBtn.onclick = () => {
+        localStorage.clear();
+        window.location.reload();
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      const shortUrlEl = document.getElementById('short-url');
+      const expiryTextEl = document.getElementById('expiry-text');
+      const successMessageEl = document.getElementById('success-message');
+      const copyBtn = document.getElementById('copy-btn');
+      const shareBtn = document.getElementById('share-btn');
+
+      const shortUrl = urlParams.get('url');
+      const expiryHours = parseFloat(urlParams.get('expiry'));
+      const message = urlParams.get('detail') || 'Share Successful!';
+
+      if (shortUrl) {
+        shortUrlEl.textContent = shortUrl;
+        shortUrlEl.href = shortUrl;
+      } else {
+        shortUrlEl.textContent = "Error: Link not found.";
+        copyBtn.disabled = true;
+        shareBtn.disabled = true;
+      }
+
+      successMessageEl.textContent = message;
+
+      if (expiryHours) {
+        expiryTextEl.textContent = `This link will expire in ${expiryHours} hours.`;
+      }
+
+      copyBtn.addEventListener('click', async () => {
+        if (!shortUrl) return;
+        try {
+          await navigator.clipboard.writeText(shortUrlEl.textContent);
+          alert('Link copied to clipboard!');
+        } catch (err) {
+          console.error('Failed to copy text: ', err);
+          alert('Could not copy link. Please select and copy manually.');
+        }
+      });
+
+      shareBtn.addEventListener('click', () => {
+        if (!shortUrl) return;
+        const fullUrl = shortUrlEl.textContent;
+
+        if (navigator.share) {
+          navigator.share({
+            title: 'shareb.in link',
+            text: 'Check out what I shared on shareb.in!',
+            url: fullUrl,
+          })
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+          alert("Native sharing is not supported in your browser. Please use the 'Copy Link' button.");
+        }
+      });
+
+    });
+  </script>
+</body>
+
+</html>

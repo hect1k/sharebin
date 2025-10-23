@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+  <title>Reset Password | shareb.in</title>
+  <meta name="description" content="Set a new password for your shareb.in account.">
+  <meta name="author" content="Nnisarg Gada" />
+  <meta property="og:title" content="Reset Password | shareb.in" />
+  <meta property="og:description" content="Set a new password for your shareb.in account." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shareb.in/reset" />
+  <meta property="og:image" content="https://shareb.in/static/og-image.jpg" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="https://umami.nnisarg.in/script.js" data-website-id="e256645a-e151-457d-8ded-af88d32d70d9"
+    data-domains="shareb.in,www.shareb.in"></script>
+</head>
+
+<body class="dark-theme">
+
+  <header>
+    <div>
+      <h1 class="logo"><a title="Home" href="/">shareb.in</a></h1>
+      <nav class="auth-links">
+        <a id="register-link" title="Register an account" href="/register">Register</a>
+        <a id="login-link" title="Login to your account" href="/login">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="reset-section">
+      <h2>Reset your password</h2>
+      <form id="reset-form" class="form-group">
+        <div class="input-group">
+          <label for="new_password">New Password<span class="require-field">*</span></label>
+          <input type="password" name="new_password" id="new_password" placeholder="CoolWhipGuy" required minlength="8"
+            autocomplete="new-password">
+        </div>
+        <div class="input-group">
+          <label for="confirm_password">Confirm Password<span class="require-field">*</span></label>
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Don't you mean Kewl Hwhip?"
+            required minlength="8" autocomplete="new-password">
+        </div>
+        <button id="reset-submit-btn" type="submit" class="button submit-btn">Reset</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <ul>
+      <a title="What is shareb.in" href="/about">About</a>
+      <a title="Terms of Use" href="/terms">Terms</a>
+      <a title="View Source Code" href="https://codeberg.org/hect1k/sharebin" target="_blank">Source</a>
+    </ul>
+    <span> | </span>
+    <p> Made with &lt;3 by <a title="Visit Nnisarg's Website" href="https://nnisarg.in" target="_blank" class="hect1k">
+        hect1k</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const resetToken = params.get('token');
+
+      const resetForm = document.getElementById('reset-form');
+
+      resetForm.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const newPassword = document.getElementById('new_password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        if (newPassword.length < 8) {
+          alert('Password must be at least 8 characters long.');
+          return;
+        }
+
+        if (newPassword !== confirmPassword) {
+          alert('Passwords do not match.');
+          return;
+        }
+
+        const submitBtn = document.getElementById('reset-submit-btn');
+        submitBtn.textContent = 'Resetting...';
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/auth/reset', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              token: resetToken,
+              password: newPassword
+            })
+          });
+
+          const data = await res.json();
+
+          submitBtn.textContent = 'Reset';
+          submitBtn.disabled = false;
+
+          if (res.status === 200) {
+            alert(data.detail || 'Password reset successfully! You can now log in with your new password.');
+            window.location.href = '/login';
+          } else {
+            console.error("Reset Error: ", data.detail);
+            alert(data.detail || 'Password reset failed. The link may have expired or is invalid.');
+            return;
+          }
+        } catch (err) {
+          console.error("Reset Network Error: ", err);
+          alert("Something went wrong. Please try again later.");
+          return;
+        }
+      };
+    });
+  </script>
+</body>
+
+</html>

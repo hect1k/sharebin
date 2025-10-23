@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    container_name: sharebin_db
+    restart: always
+    environment:
+      POSTGRES_USER: sharebin_user
+      POSTGRES_PASSWORD: sharebin_password
+      POSTGRES_DB: sharebin_db
+    ports:
+      - "5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  sharebin:
+    build: .
+    container_name: sharebin_app
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: sharebin_db
+      DB_USER: sharebin_user
+      DB_PASSWORD: sharebin_password
+    depends_on:
+      - db
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+volumes:
+  db_data:
