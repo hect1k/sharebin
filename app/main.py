@@ -1,9 +1,10 @@
 import contextlib
 import os
 from datetime import datetime
+from typing import Optional
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,6 +13,8 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_ipaddr
 
 from app import create_tables
+from app.dependencies import get_current_user
+from app.models.models import User
 from app.routes import auth, share
 from app.services.scheduler_service import cleanup_expired_items
 
@@ -82,6 +85,12 @@ async def index():
     return FileResponse(file_path)
 
 
+@app.get("/favicon.ico", tags=["Web UI"])
+async def docs():
+    file_path = os.path.join("static", "favicon.ico")
+    return FileResponse(file_path)
+
+
 @app.get("/success", tags=["Web UI"])
 async def success():
     file_path = os.path.join("static", "success.html")
@@ -120,7 +129,9 @@ async def terms():
 
 @app.get("/health", tags=["Misc."])
 @limiter.limit("10/minute")
-async def health(request: Request):
+async def health(
+    request: Request, current_user: Optional[User] = Depends(get_current_user)
+):
     return {"detail": "shareb.in is healthy!"}
 
 

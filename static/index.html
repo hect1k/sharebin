@@ -230,6 +230,65 @@
       });
       switchTab('fileshare');
 
+      async function refreshToken() {
+        refresh_token = localStorage.getItem('refresh_token');
+
+        if (!refresh_token) {
+          return;
+        }
+
+        try {
+          const res = await fetch('/auth/refresh', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${refresh_token}`
+            }
+          });
+          const data = await res.json();
+          if (res.status === 200) {
+            localStorage.setItem('access_token', data.access_token);
+            headers['Authorization'] = `Bearer ${data.access_token}`;
+            return;
+          } else if (res.status === 401) {
+            alert("Session Expired. Please login again.");
+            localStorage.clear();
+            window.location.reload();
+            return;
+          }
+          return;
+        } catch (err) {
+          console.log("Refresh Token Error: ", err);
+          return;
+        }
+      }
+
+      async function checkHealth() {
+        try {
+          const res = await fetch('/health', {
+            method: 'GET',
+            headers: headers
+          });
+          const data = await res.json();
+          if (res.status === 200) {
+            return;
+          } else if (res.status === 401) {
+            await refreshToken();
+            checkHealth();
+            return;
+          } else {
+            console.log("Health Check Error: ", data.detail);
+            alert("Server is down. Please try again later.");
+            return;
+          }
+        } catch (err) {
+          console.log("Health Check Error: ", err);
+          alert("Server is down. Please try again later.");
+          return;
+        }
+      }
+
+      checkHealth();
+
       const fileInput = document.getElementById('file');
       const fileName = document.getElementById('file-name');
       fileInput.addEventListener('change', (e) => {
@@ -250,7 +309,6 @@
         const submitBtn = document.getElementById('file-submit-btn');
         submitBtn.textContent = 'Sharing...';
         submitBtn.disabled = true;
-
 
         const file = fileInput.files[0];
         const custom_code = document.getElementById('file-custom_code').value;

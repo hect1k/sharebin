@@ -185,6 +185,41 @@ async def login(
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
+@router.post(
+    "/refresh",
+    status_code=200,
+    responses={
+        200: {"description": "Access token refreshed successfully"},
+        400: {"description": "Bad request"},
+        500: {"description": "Internal server error"},
+    },
+)
+@limiter.limit("10/minute")
+async def refresh(request: Request):
+    try:
+        header = request.headers.get("Authorization")
+        if not header:
+            raise HTTPException(status_code=400, detail="Missing authorization header")
+        refresh_token = header.split(" ")[1]
+        data = auth_service.decode_jwt_token(refresh_token)
+        access_token = auth_service.create_access_token(data=data)
+        return JSONResponse(
+            status_code=200,
+            content={
+                "detail": "Access token refreshed successfully",
+                "access_token": access_token,
+                "token_type": "bearer",
+            },
+        )
+
+    except HTTPException as e:
+        raise e
+
+    except Exception as e:
+        print(f"Error refreshing access token: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 @router.get(
     "/verify",
     status_code=200,
@@ -197,7 +232,7 @@ async def login(
 @limiter.limit("10/minute")
 async def verify(request: Request, token: str, db: Session = Depends(get_db_dep)):
     try:
-        user = await auth_service.check_verification_token(db, token)
+        user = auth_service.check_verification_token(db, token)
 
         if not user or not isinstance(user, User):
             raise HTTPException(status_code=400, detail="Invalid token")
@@ -282,7 +317,7 @@ async def reset(
                 status_code=400, detail="Password must be at least 8 characters"
             )
 
-        user = await auth_service.check_verification_token(db, token)
+        user = auth_service.check_verification_token(db, token)
         if not user:
             raise HTTPException(status_code=400, detail="Invalid token")
 

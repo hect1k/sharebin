@@ -27,6 +27,7 @@ DISALLOWED_CODES = [
     "docs",
     "redoc",
     "openapi.json",
+    "favicon.ico",
 ]
 
 

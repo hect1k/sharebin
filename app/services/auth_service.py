@@ -54,7 +54,7 @@ def verify_password(password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 
-async def check_verification_token(
+def check_verification_token(
     db: Session,
     token: str,
 ):
@@ -76,3 +76,13 @@ async def check_verification_token(
     if not user:
         raise credentials_exception
     return user
+
+
+def decode_jwt_token(token: str) -> dict:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+    except InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
