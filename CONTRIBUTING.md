@@ -49,7 +49,7 @@ Enhancement ideas should align with sharebin’s goals: simplicity, privacy, and
 To contribute code:
 
 1. **Fork** the repository on Codeberg.
-2. **Create a new branch** from `master` for your change.
+2. **Create a new branch** from `main` for your change.
 3. Make your changes and commit them with clear messages.
 4. Test your changes locally.
 5. **Submit a Pull Request (PR)** describing:
@@ -64,8 +64,8 @@ PRs should be small, focused, and follow the project’s coding conventions.
 ### Prerequisites
 
 * Python **3.10+**
+* `uv`
 * PostgreSQL database server
-* `pip` or `uv`
 * Optional: Docker and Docker Compose for containerized development
 
 ### Installation
@@ -77,18 +77,14 @@ PRs should be small, focused, and follow the project’s coding conventions.
    cd sharebin
    ```
 
-2. **Create and activate a virtual environment:**
+2. **Install dependencies:**
 
    ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   uv sync
    ```
 
-3. **Install dependencies:**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
+> [!NOTE]
+> Make sure you run `pip freeze > requirements.txt` to generate the `requirements.txt` file if you add/remove any dependencies. This is required for docker to build the image.
 
 ### Configuration
 
@@ -119,7 +115,7 @@ Ensure the storage and logs directories exist and are writable.
 Start the development server:
 
 ```bash
-fastapi dev
+uv run fastapi dev
 ```
 
 The app runs at [http://localhost:8000](http://localhost:8000).

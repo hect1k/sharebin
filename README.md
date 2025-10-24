@@ -47,6 +47,7 @@ Inspired by the [suckless philosophy](https://suckless.org/philosophy), sharebin
 You will need the following installed on your system:
 
 * **Python 3.10+**
+* **uv** (optional, see [Running section](#running))
 * **PostgreSQL** database server
 * **Docker & Docker Compose** (optional, see [Docker section](#docker))
 
@@ -59,17 +60,10 @@ git clone https://codeberg.org/hect1k/sharebin
 cd sharebin
 ```
 
-2.**Create and Activate Virtual Environment:**
+2.**Install Dependencies:**
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
-
-3.**Install Dependencies:**
-
-```bash
-pip install -r requirements.txt
+uv sync # or pip install -r requirements.txt
 ```
 
 ### Configuration
@@ -125,7 +119,7 @@ Set values for the following sections:
 Make sure your PostgreSQL database is running and configured correctly. Then, run the FastAPI app in development mode:
 
 ```bash
-fastapi dev
+uv run fastapi dev
 ```
 
 The app will be available at `http://localhost:8000`. The background scheduler for cleanup will start automatically.
