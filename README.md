@@ -173,7 +173,7 @@ Register, log in, upload files/text pastes, and manage your shared items.
 The API is documented via [Redoc](https://shareb.in/redoc) and [Swagger UI](https://shareb.in/docs). CLI-friendly for power users.
 
 ```bash
-curl -X POST "https://shareb.in/" -F "file=@path/to/file.txt"
+curl -F "file=@path/to/file.txt" https://shareb.in
 ```
 
 ## To-Do
